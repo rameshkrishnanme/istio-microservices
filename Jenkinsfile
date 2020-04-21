@@ -8,19 +8,21 @@ pipeline {
     stages {
         stage('Run unit tests') {
             steps {
-              // The needed steps for your testing
+               echo "Run unit tests"
             }
         }
 
         stage('Build application') {
             steps {
               // Build the app
+			  echo "Build the app"
             }
         }
 
         stage('Docker publish') {
             steps {
               // Publish a docker image for your application 
+			  echo "Docker publish"
             }
         }
 
@@ -28,6 +30,7 @@ pipeline {
             steps {
                 script {
                   container('helm') {
+					  echo "k8s Deployment"
                       // Init authentication and config for your kubernetes cluster
                       sh("helm init --client-only --skip-refresh")
 					  sh("helm ls")
