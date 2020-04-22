@@ -35,7 +35,7 @@ pipeline {
 					  // sh("helm init --client-only --skip-refresh")
 					  // sh("helm help")
 					  sh("helm list")
-					  sh("helm del --purge istio-role)
+					  sh("helm del --purge istio-role")
 					  sh("helm install --debug istio-role charts/service")
 					  //sh("helm upgrade --debug istio-role charts/service --version=1.2")
 					  sh("helm ls")
