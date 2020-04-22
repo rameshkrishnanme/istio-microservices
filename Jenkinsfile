@@ -29,7 +29,7 @@ pipeline {
         stage('Deployment') {
             steps {
                 script {
-                  container('jenkins-agent') {
+                  container('helm') {
 					  echo "k8s Deployment"
                       // Init authentication and config for your kubernetes cluster
                       sh("helm init --client-only --skip-refresh")
