@@ -10,24 +10,3 @@ spec:
     tty: true
     securityContext:
       privileged: true
-    livenessProbe:
-      failureThreshold: 12
-      httpGet:
-        path: /login
-        port: http
-        scheme: HTTP
-      initialDelaySeconds: 120
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 5
-    readinessProbe:
-      failureThreshold: 12
-      httpGet:
-        path: /login
-        port: http
-        scheme: HTTP
-      initialDelaySeconds: 120
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 5
-
