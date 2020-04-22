@@ -33,7 +33,8 @@ pipeline {
 					  echo "k8s Deployment"
 					  // Init authentication and config for your kubernetes cluster
 					  // sh("helm init --client-only --skip-refresh")
-					  sh("helm help")
+					  // sh("helm help")
+					  sh("helm list")
 					  //sh("helm install --debug --name istio-role charts/service")
 					  sh("helm upgrade --debug istio-role charts/service --version=1.2")
 					  sh("helm ls")
