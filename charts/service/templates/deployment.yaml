@@ -31,7 +31,7 @@ spec:
         app: istio-role
         version: v1
     spec:
-      serviceAccountName: istio-role-sa
+      #serviceAccountName: istio-role-sa
       imagePullSecrets:
       - name: regcred
       containers:
