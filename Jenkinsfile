@@ -29,11 +29,11 @@ pipeline {
         stage('Deployment') {
             steps {
                 script {
-                  container('jnlp') {
-		      echo "k8s Deployment"
-                      // Init authentication and config for your kubernetes cluster
-                      sh("helm init --client-only --skip-refresh")
-		      sh("helm ls")
+                  container('helm') {
+					  echo "k8s Deployment"
+					  // Init authentication and config for your kubernetes cluster
+					  sh("helm init --client-only --skip-refresh")
+					  sh("helm ls")
                       //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
                     }
                 }

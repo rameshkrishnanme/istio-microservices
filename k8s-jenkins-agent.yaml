@@ -5,7 +5,7 @@ metadata:
     name: "jenkins-agent"    
 spec:
   containers:
-  - name: docker
+  - name: helm
     image: dtzar/helm-kubectl:3.1.2
     tty: true
     securityContext:
