@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-role
+  namespace: istio-app
+  labels:
+    app: istio-role
+spec:
+  ports:
+  - port: 8080
+    name: http-istio-role
+  selector:
+    app: istio-role
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-role-v1
+  namespace: istio-app
+  labels:
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: istio-role
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: istio-role
+        version: v1
+    spec:
+      serviceAccountName: istio-role-sa
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: istio-role
+        image: docker.io/rameshkrishnanme/istiorole:v11
+        imagePullPolicy: Always #Always
+        ports:
+        - containerPort: 8080
