@@ -34,7 +34,7 @@ pipeline {
 					  // Init authentication and config for your kubernetes cluster
 					  // sh("helm init --client-only --skip-refresh")
 					  sh("helm help")
-					  sh("helm upgrade --debug --install --recreate-pods istio-role charts/service")
+					  sh("helm install --debug istio-role charts/service")
 					  sh("helm ls")
                       //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
                     }
