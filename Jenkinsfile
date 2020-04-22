@@ -35,8 +35,8 @@ pipeline {
 					  // sh("helm init --client-only --skip-refresh")
 					  // sh("helm help")
 					  sh("helm list")
-					  //sh("helm install --debug --name istio-role charts/service")
-					  sh("helm upgrade --debug istio-role charts/service --version=1.2")
+					  sh("helm install --debug --name istio-role charts/service")
+					  //sh("helm upgrade --debug istio-role charts/service --version=1.2")
 					  sh("helm ls")
                       //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
                     }
