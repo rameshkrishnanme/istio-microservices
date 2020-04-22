@@ -1,41 +1,36 @@
-pipeline {
-    agent {
-        kubernetes {
-            label 'jenkins-agent'
-            yamlFile 'k8s-jenkins-agent.yaml'
+podTemplate(label: 'mypod', containers: [
+    containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
+  ],
+  volumes: [
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+  ]
+  ) {
+    node('mypod') {
+        stage('Check running containers') {
+            container('docker') {
+                // example to show you can run docker commands when you mount the socket
+                sh 'hostname'
+                sh 'hostname -i'
+                sh 'docker ps'
+            }
         }
-    }
-    stages {
-        stage('Run unit tests') {
-            steps {
-               echo "Run unit tests"
+        
+        stage('Clone repository') {
+            container('git') {
+                sh 'whoami'
+                sh 'hostname -i'
+                sh 'git clone -b master https://github.com/lvthillo/hello-world-war.git'
             }
         }
 
-        stage('Build application') {
-            steps {
-              // Build the app
-			  echo "Build the app"
-            }
-        }
-
-        stage('Docker publish') {
-            steps {
-              // Publish a docker image for your application 
-			  echo "Docker publish"
-            }
-        }
-
-        stage('Deployment') {
-            steps {
-                script {
-                  container('helm') {
-					  echo "k8s Deployment"
-                      // Init authentication and config for your kubernetes cluster
-                      sh("helm init --client-only --skip-refresh")
-					  sh("helm ls")
-                      //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
-                    }
+        stage('Maven Build') {
+            container('maven') {
+                dir('hello-world-war/') {
+                    sh 'hostname'
+                    sh 'hostname -i'
+                    sh 'mvn clean install'
                 }
             }
         }
