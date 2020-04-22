@@ -1,0 +1,25 @@
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations: {}
+  labels:
+    jenkins/docker: "true"
+spec:
+  containers:
+  - name: jnlp
+    args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+    image: "jenkins/jnlp-agent-docker:latest"
+    imagePullPolicy: "Always"
+    securityContext:
+      privileged: true
+      runAsGroup: 0
+    tty: true
+    volumeMounts:
+    - mountPath: "/var/run/docker.sock"
+      name: "docker-sock"
+      readOnly: false
+  restartPolicy: "Never"
+  volumes:
+  - hostPath:
+      path: "/var/run/docker.sock"
+    name: "docker-sock"
