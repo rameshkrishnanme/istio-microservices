@@ -38,5 +38,5 @@
 /**/data_db/
 
 ### LOGGER ###
-/**/lsg_elpaso_app_hibernate_logger.log*
-/**/lsg_elpaso_app_logger.log*
+/**/*_hibernate_logger.log*
+/**/*_app_logger.log*

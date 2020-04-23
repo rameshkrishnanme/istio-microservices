@@ -29,7 +29,8 @@ pipeline {
                                             usernameVariable: 'username')]) {
 						sh 'docker images'
 						sh "docker login -u $username -p $password $dockerRegistry"
-						sh "docker build -t ${imageName} ."
+						sh "docker build -t ${imageName}:${build_version} ."
+						sh 'docker images'
 						sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:${build_version}"
 						sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:latest"
 						sh "docker push ${dockerRegistry}/${imageName}:${build_version}"
