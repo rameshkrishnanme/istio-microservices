@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
   - name: helm
-    image: dtzar/helm-kubectl:3.1.2
+    image: dtzar/helm-kubectl:3.2.0
     tty: true
     securityContext:
       privileged: true

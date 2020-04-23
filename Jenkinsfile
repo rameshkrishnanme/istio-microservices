@@ -5,6 +5,9 @@ pipeline {
             yamlFile 'k8s-jenkins-agent.yaml'
         }
     }
+	environment {
+        dockerRegistry = credentials('dockerRegistry')
+    }
     stages {
         stage('Run unit tests') {
             steps {
@@ -16,6 +19,24 @@ pipeline {
             steps {
               // Build the app
 			  echo "Build the app"
+			    script {
+                  container('helm') {
+				  
+					 withCredentials([usernamePassword(credentialsId: 'DOCKER_CRED', 
+                                            passwordVariable: 'password',
+                                            usernameVariable: 'username')]) {
+						sh 'docker images'
+						sh "docker login -u $username -p $password $dockerRegistry"
+					//	sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:${sem_version}"
+					//	sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:latest"
+					//	sh "docker push ${dockerRegistry}/${imageName}:${sem_version}"
+					//	sh "docker push ${dockerRegistry}/${imageName}:latest"
+					}
+				  
+					
+				  
+				  }
+				}  
             }
         }
 
