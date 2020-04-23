@@ -8,7 +8,7 @@ pipeline {
 	environment {
         dockerRegistry = 'docker.io' //credentials('DOCKER_REGISTRY')
 		imageName = 'istiorole'
-		build_version = "${env.BUILD_NUMBER}"
+		build_version = "v${env.BUILD_NUMBER}"
     }
     stages {
         stage('Run unit tests') {
