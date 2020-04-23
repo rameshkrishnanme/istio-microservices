@@ -31,10 +31,10 @@ pipeline {
 						sh "docker login -u $username -p $password $dockerRegistry"
 						sh "docker build -t ${imageName}:${build_version} ."
 						sh 'docker images'
-						sh "docker tag ${imageName}:${build_version} ${dockerRegistry}/${imageName}:${build_version}"
-						sh "docker tag ${imageName}:${build_version} ${dockerRegistry}/${imageName}:latest"
-						sh "docker push $username/${dockerRegistry}/${imageName}:${build_version}"
-						sh "docker push $username/${dockerRegistry}/${imageName}:latest"
+						sh "docker tag ${imageName}:${build_version} $username/${imageName}:${build_version}"
+						sh "docker tag ${imageName}:${build_version} $username/${imageName}:latest"
+						sh "docker push $username/${imageName}:${build_version}"
+						sh "docker push $username/${imageName}:latest"
 					}
 				  
 					
