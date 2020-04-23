@@ -19,8 +19,7 @@ pipeline {
             steps {
               // Build the app
 			  echo "Build the app"
-			    script {
-                  container('helm') {
+			   
 				  
 					 withCredentials([usernamePassword(credentialsId: 'DOCKER_CRED', 
                                             passwordVariable: 'password',
@@ -35,8 +34,7 @@ pipeline {
 				  
 					
 				  
-				  }
-				}  
+				
             }
         }
 
