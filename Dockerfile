@@ -2,9 +2,9 @@ FROM maven:3.3.9-jdk-8 as builder
 
 RUN apt-get install -y curl
 
-RUN ls -al
+RUN ls -al /home/jenkins/agent
 
-RUN mvn clean install
+RUN mvn clean install /home/jenkins/agent
 
 RUN ls -al target/
 
