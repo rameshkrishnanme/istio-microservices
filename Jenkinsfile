@@ -9,6 +9,7 @@ pipeline {
         dockerRegistry = 'docker.io' //credentials('DOCKER_REGISTRY')
 		imageName = 'istiorole'
 		build_version = "v${env.BUILD_NUMBER}"
+		finalImage = '' 
     }
     stages {
         stage('Run unit tests') {
@@ -27,14 +28,16 @@ pipeline {
 					 withCredentials([usernamePassword(credentialsId: 'DOCKER_CRED', 
                                             passwordVariable: 'password',
                                             usernameVariable: 'username')]) {
-						sh 'docker images'
+						//sh 'docker images'
 						sh "docker login -u $username -p $password $dockerRegistry"
-						sh "docker build -t ${imageName}:${build_version} ."
-						sh 'docker images'
-						sh "docker tag ${imageName}:${build_version} $username/${imageName}:${build_version}"
-						sh "docker tag ${imageName}:${build_version} $username/${imageName}:latest"
-						sh "docker push $username/${imageName}:${build_version}"
-						sh "docker push $username/${imageName}:latest"
+						//sh "docker build -t ${imageName}:${build_version} ."
+						//sh 'docker images'
+						//sh "docker tag ${imageName}:${build_version} $username/${imageName}:${build_version}"
+						//sh "docker tag ${imageName}:${build_version} $username/${imageName}:latest"
+						//sh "docker push $username/${imageName}:${build_version}"
+						//sh "docker push $username/${imageName}:latest"
+						
+						finalImage = "$username/${imageName}:v73" 
 					}
 				  
 					
@@ -65,7 +68,7 @@ pipeline {
 					 // sh("helm install --debug istio-role charts/service")
 					 
 					 // Building the command
-					  def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version} --set app.version=$build_version --set app.image=$dockerRegistry/$username/${imageName}:${build_version}"
+					  def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version} --set app.version=$build_version --set app.image=${finalImage}"
 					                    					 
 					  sh("${helmCommand}")
 					  sh("helm ls")
