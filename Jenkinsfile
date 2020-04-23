@@ -6,7 +6,7 @@ pipeline {
         }
     }
 	environment {
-        dockerRegistry = credentials('dockerRegistry')
+        dockerRegistry = 'docker.io' //credentials('DOCKER_REGISTRY')
     }
     stages {
         stage('Run unit tests') {
