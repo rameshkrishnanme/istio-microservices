@@ -10,3 +10,8 @@ spec:
     tty: true
     securityContext:
       privileged: true
+  - name: docker
+    image: docker:19.03.8-dind
+    tty: true
+    securityContext:
+      privileged: true
