@@ -37,7 +37,7 @@ pipeline {
 						//sh "docker push $username/${imageName}:${build_version}"
 						//sh "docker push $username/${imageName}:latest"
 						
-						finalImage = "$username/${imageName}:v73" 
+						finalImage = "$username/${imageName}" 
 					}
 				  
 					
@@ -68,7 +68,7 @@ pipeline {
 					 // sh("helm install --debug istio-role charts/service")
 					 
 					 // Building the command
-					  def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version} --set app.version=$build_version --set app.image=${finalImage}"
+					  def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version} --set app.version=v73 --set app.image=${finalImage}"
 					                    					 
 					  sh("${helmCommand}")
 					  sh("helm ls")
