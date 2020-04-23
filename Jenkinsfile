@@ -65,10 +65,8 @@ pipeline {
 					 // sh("helm install --debug istio-role charts/service")
 					 
 					 // Building the command
-					 def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version}"
-					                    + " --set app.repository=$dockerRegistry/$imageName "
-										+ " --set app.version=$build_version "
-					 
+					  def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version} --set app.version=$build_version --set app.image=$dockerRegistry/$username/${imageName}:${build_version}"
+					                    					 
 					  sh("${helmCommand}")
 					  sh("helm ls")
                       //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
