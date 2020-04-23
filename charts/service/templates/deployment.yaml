@@ -36,7 +36,7 @@ spec:
       - name: regcred
       containers:
       - name: istio-role
-        image: docker.io/rameshkrishnanme/istiorole:v11
+        image: {{ .Values.app.image }}:{{ .Values.app.version }}
         imagePullPolicy: Always #Always
         ports:
         - containerPort: 8080

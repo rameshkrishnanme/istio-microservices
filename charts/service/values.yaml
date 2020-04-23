@@ -4,6 +4,10 @@
 
 replicaCount: 1
 
+app:
+    version: 1.0
+    image: istiorole
+
 image:
   repository: nginx
   tag: stable

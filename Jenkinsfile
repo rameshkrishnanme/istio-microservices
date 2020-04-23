@@ -7,6 +7,8 @@ pipeline {
     }
 	environment {
         dockerRegistry = 'docker.io' //credentials('DOCKER_REGISTRY')
+		imageName = 'istiorole'
+		build_version = "${env.BUILD_NUMBER}"
     }
     stages {
         stage('Run unit tests') {
@@ -27,10 +29,11 @@ pipeline {
                                             usernameVariable: 'username')]) {
 						sh 'docker images'
 						sh "docker login -u $username -p $password $dockerRegistry"
-					//	sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:${sem_version}"
-					//	sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:latest"
-					//	sh "docker push ${dockerRegistry}/${imageName}:${sem_version}"
-					//	sh "docker push ${dockerRegistry}/${imageName}:latest"
+						sh "docker build -t ${imageName} ."
+						sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:${build_version}"
+						sh "docker tag ${imageName} ${dockerRegistry}/${imageName}:latest"
+						sh "docker push ${dockerRegistry}/${imageName}:${build_version}"
+						sh "docker push ${dockerRegistry}/${imageName}:latest"
 					}
 				  
 					
@@ -59,7 +62,13 @@ pipeline {
 					 // sh("helm del istio-role")
 					 // sh("helm list")
 					 // sh("helm install --debug istio-role charts/service")
-					  sh("helm upgrade --debug istio-role charts/service --version=1.2")
+					 
+					 // Building the command
+					 def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version}"
+					                     " --set app.repository=$dockerRegistry/$imageName " +
+										 " --set app.version=$build_version "
+					 
+					  sh("${helmCommand}")
 					  sh("helm ls")
                       //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
                     }
