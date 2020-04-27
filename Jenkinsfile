@@ -25,7 +25,7 @@ pipeline {
 			    script {
                   container('docker') {
 				  
-					 withCredentials([usernamePassword(credentialsId: 'DOCKER_CRED', 
+					/*withCredentials([usernamePassword(credentialsId: 'DOCKER_CRED', 
                                             passwordVariable: 'password',
                                             usernameVariable: 'username')]) {
 											
@@ -39,6 +39,27 @@ pipeline {
 						sh "docker push $username/${imageName}:latest"
 						
 						finalImage = "$username/${imageName}" 
+					}*/
+					withCredentials([file(credentialsId: 'gcrdocker', variable: 'GC_KEY')]){
+					    sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://us.gcr.io"
+					    sh "gcloud auth activate-service-account --key-file='$GC_KEY'"
+					    sh "gcloud auth configure-docker"
+					    GLOUD_AUTH = sh (
+							script: 'gcloud auth print-access-token',
+							returnStdout: true
+						).trim()
+					    echo "Pushing image To GCR"
+						
+					    // sh "docker push eu.gcr.io/${google_projectname}/${image_name}:${image-tag}"
+						
+						sh 'docker images'
+						sh "docker login -u $username -p $password $dockerRegistry"
+						sh "docker build -t ${imageName}:${build_version} ."
+						sh 'docker images'
+						sh "docker tag ${imageName}:${build_version} $username/${imageName}:${build_version}"
+						sh "docker tag ${imageName}:${build_version} $username/${imageName}:latest"
+						sh "docker push $username/${imageName}:${build_version}"
+						sh "docker push $username/${imageName}:latest"
 					}
 				  
 					
