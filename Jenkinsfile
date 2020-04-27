@@ -61,7 +61,6 @@ pipeline {
 						sh "docker push $dockerRegistry/${imageName}:latest"
 						
 						finalImage = "$dockerRegistry/${imageName}"
-						echo "finalImage -> ${finalImage}"
 					}
 				  
 					
@@ -89,14 +88,15 @@ pipeline {
 					  sh("helm list")
 					 // sh("helm del istio-role")
 					 // sh("helm list")
-					 // sh("helm install --debug istio-role charts/service")
+					  
 					 
-					 echo "finalImage -> ${finalImage}"
+					  echo "finalImage -> ${finalImage}"
 					 
 					 // Building the command
 					  def helmCommand = "helm upgrade --debug istio-role charts/service --version=${build_version} --set app.version=${build_version} --set app.image=${finalImage}"
-					                    					 
-					  sh("${helmCommand}")
+					                    		
+					   sh("helm install --debug istio-role charts/service --version=v1 --set app.version=${build_version} --set app.image=${finalImage}")							
+					  //sh("${helmCommand}")
 					  sh("helm ls")
                       //sh("helm upgrade --install --wait prod-my-app ./helm --namespace prod")
                     }
