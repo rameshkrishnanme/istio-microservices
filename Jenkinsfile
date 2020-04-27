@@ -59,6 +59,8 @@ pipeline {
 						sh "docker tag ${imageName}:${build_version} $dockerRegistry/${imageName}:latest"
 						sh "docker push $dockerRegistry/${imageName}:${build_version}"
 						sh "docker push $dockerRegistry/${imageName}:latest"
+						
+						finalImage = "$dockerRegistry/${imageName}"
 					}
 				  
 					
