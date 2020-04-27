@@ -6,7 +6,7 @@ pipeline {
         }
     }
 	environment {
-        dockerRegistry = 'gcr.io/gke-istio-275114';//'docker.io' //credentials('DOCKER_REGISTRY')
+        dockerRegistry = 'us.gcr.io/gke-istio-275114';//'docker.io' //credentials('DOCKER_REGISTRY')
 		imageName = 'istiorole'
 		build_version = "v${env.BUILD_NUMBER}"
 		finalImage = '' 
